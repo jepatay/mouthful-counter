@@ -1,0 +1,5 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
+  <rect width='512' height='512' rx='80' fill='%230f0f0f'/>
+  <circle cx='256' cy='256' r='190' fill='none' stroke='%236ee7b7' stroke-width='14'/>
+  <text x='256' y='308' text-anchor='middle' font-family='system-ui,sans-serif' font-size='180' font-weight='700' fill='%236ee7b7'>M</text>
+</svg>

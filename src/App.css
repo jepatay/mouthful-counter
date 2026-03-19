@@ -1,0 +1,254 @@
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f0f0f;
+  --surface: #1a1a1a;
+  --surface2: #242424;
+  --accent: #6ee7b7;
+  --accent-dim: #34d399;
+  --text: #e5e7eb;
+  --text-dim: #9ca3af;
+  --danger: #f87171;
+  --radius: 16px;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* ── Layout ── */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.app-header {
+  padding: 20px 20px 0;
+}
+
+.app-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* ── Tabs ── */
+.tab-nav {
+  display: flex;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab-btn.active {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* ── Main area ── */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px 40px;
+}
+
+.loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+/* ── Counter ── */
+.counter-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.count-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
+}
+
+.count-number {
+  font-size: clamp(5rem, 25vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.count-label {
+  margin-top: 8px;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Big tap button ── */
+.tap-btn-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.tap-btn {
+  width: min(260px, 70vw);
+  height: min(260px, 70vw);
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  background: var(--surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.08s, background 0.08s;
+  box-shadow: 0 0 40px rgba(110, 231, 183, 0.15);
+}
+
+.tap-btn:active {
+  transform: scale(0.93);
+  background: var(--surface2);
+  box-shadow: 0 0 20px rgba(110, 231, 183, 0.08);
+}
+
+.tap-btn-inner {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+}
+
+/* ── Secondary controls ── */
+.secondary-controls {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.secondary-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--surface2);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.08s;
+}
+
+.secondary-btn:active {
+  background: var(--surface2);
+  transform: scale(0.97);
+}
+
+.reset-btn {
+  color: var(--danger);
+  border-color: rgba(248, 113, 113, 0.2);
+}
+
+.save-indicator {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  opacity: 0.6;
+  letter-spacing: 0.05em;
+}
+
+/* ── History ── */
+.history-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.history-empty-sub {
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.history-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.history-row-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.history-date {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.history-count {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.history-bar-bg {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.history-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+  min-width: 4px;
+  transition: width 0.4s ease;
+}
