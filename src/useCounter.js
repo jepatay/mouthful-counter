@@ -6,7 +6,6 @@ import {
   collection,
   query,
   orderBy,
-  limit,
   getDocs,
 } from "firebase/firestore";
 import { db } from "./firebase";
@@ -69,10 +68,10 @@ export function useCounter() {
     }
   }, [docRef]);
 
-  // Load history (last 30 days)
+  // Load full history
   const loadHistory = useCallback(async () => {
     try {
-      const q = query(historyColRef(), orderBy("date", "desc"), limit(30));
+      const q = query(historyColRef(), orderBy("date", "desc"));
       const snap = await getDocs(q);
       const rows = snap.docs.map((d) => ({ date: d.id, count: d.data().count }));
       setHistory(rows);
@@ -97,7 +96,7 @@ export function useCounter() {
           // refresh history entry for today
           setHistory((prev) => {
             const filtered = prev.filter((r) => r.date !== key);
-            return [{ date: key, count: newCount }, ...filtered].slice(0, 30);
+            return [{ date: key, count: newCount }, ...filtered];
           });
         } catch {
           // silently fail — localStorage already updated
