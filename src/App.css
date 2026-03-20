@@ -191,7 +191,7 @@ html, body, #root {
   letter-spacing: 0.05em;
 }
 
-/* ── History ── */
+/* ── History / Calendar heatmap ── */
 .history-empty {
   flex: 1;
   display: flex;
@@ -208,47 +208,96 @@ html, body, #root {
   opacity: 0.6;
 }
 
-.history-list {
+.cal-wrap {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
 }
 
-.history-row {
+.cal-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.cal-outer {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  align-items: flex-start;
 }
 
-.history-row-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+.cal-scroll {
+  flex: 1;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-.history-date {
-  font-size: 0.9rem;
+.cal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.cal-months-row {
+  position: relative;
+  height: 18px;
+  margin-bottom: 4px;
+}
+
+.cal-month-label {
+  position: absolute;
+  top: 0;
+  font-size: 0.68rem;
   color: var(--text-dim);
+  font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
 }
 
-.history-count {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
+.cal-cols {
+  display: flex;
 }
 
-.history-bar-bg {
-  height: 6px;
-  border-radius: 3px;
+.cal-week {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.cal-cell {
+  border-radius: 6px;
   background: var(--surface);
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  cursor: default;
+  transition: filter 0.1s;
 }
 
-.history-bar-fill {
-  height: 100%;
-  border-radius: 3px;
-  background: var(--accent);
-  min-width: 4px;
-  transition: width 0.4s ease;
+.cal-cell:hover {
+  filter: brightness(1.25);
+}
+
+.cal-today {
+  box-shadow: 0 0 0 1.5px var(--accent);
+}
+
+.cal-day-labels {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding-top: 22px; /* offset for month label row */
+}
+
+.cal-day-label {
+  display: flex;
+  align-items: center;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
