@@ -70,11 +70,18 @@ html, body, #root {
 
 .habit-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 8px;
   padding: 10px 12px;
   background: var(--surface);
   border-radius: 12px;
+}
+
+.habit-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .habit-name {
@@ -83,22 +90,34 @@ html, body, #root {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  min-width: 90px;
   text-align: left;
   padding: 0;
   letter-spacing: 0.01em;
-  flex-shrink: 0;
+  flex: 1;
 }
 
 .habit-name--good { color: var(--accent); }
 .habit-name--bad  { color: var(--danger); }
 
-.habit-row-right {
+.habit-delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.habit-delete-btn:hover { opacity: 1; color: var(--danger); }
+
+.habit-row-bottom {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
-  min-width: 0;
 }
 
 /* ── Tap button (per habit) ── */
@@ -137,10 +156,9 @@ html, body, #root {
 /* ── Day chips ── */
 .day-chips {
   display: flex;
-  gap: 4px;
+  gap: 3px;
   flex: 1;
   min-width: 0;
-  overflow: hidden;
 }
 
 .day-chip {
@@ -148,21 +166,20 @@ html, body, #root {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 30px;
   flex: 1;
   padding: 4px 2px;
-  border-radius: 8px;
+  border-radius: 7px;
   background: var(--surface2);
   border: 1.5px solid transparent;
   cursor: default;
+  min-width: 0;
 }
 
 .chip-label {
-  font-size: 0.42rem;
+  font-size: 0.5rem;
   color: var(--text-dim);
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
 }
 
 .chip-count {

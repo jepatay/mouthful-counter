@@ -68,5 +68,13 @@ export function useHabits() {
     }));
   }, []);
 
-  return { habits: data.habits, counts: data.counts, tap, addHabit };
+  const deleteHabit = useCallback((id) => {
+    setData((prev) => {
+      const counts = { ...prev.counts };
+      delete counts[id];
+      return { habits: prev.habits.filter((h) => h.id !== id), counts };
+    });
+  }, []);
+
+  return { habits: data.habits, counts: data.counts, tap, addHabit, deleteHabit };
 }
