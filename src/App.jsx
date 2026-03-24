@@ -1,46 +1,38 @@
 import { useState } from "react";
-import Counter from "./Counter";
-import History from "./History";
-import { useCounter } from "./useCounter";
+import HabitList from "./HabitList";
+import HabitDetail from "./HabitDetail";
+import { useHabits } from "./useHabits";
 import "./App.css";
 
 export default function App() {
-  const [tab, setTab] = useState("counter");
-  const { count, history, loading, saving, increment, decrement, reset } = useCounter();
+  const { habits, counts, tap, addHabit } = useHabits();
+  const [selectedId, setSelectedId] = useState(null);
+
+  const selectedHabit = selectedId ? habits.find((h) => h.id === selectedId) : null;
 
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">Mouthful Counter</h1>
-        <nav className="tab-nav">
-          <button
-            className={`tab-btn ${tab === "counter" ? "active" : ""}`}
-            onClick={() => setTab("counter")}
-          >
-            Today
-          </button>
-          <button
-            className={`tab-btn ${tab === "history" ? "active" : ""}`}
-            onClick={() => setTab("history")}
-          >
-            History
-          </button>
-        </nav>
+        <h1 className="app-title">
+          {selectedHabit ? "History" : "Habit Tracker"}
+        </h1>
       </header>
 
       <main className="app-main">
-        {loading ? (
-          <div className="loading">Loading…</div>
-        ) : tab === "counter" ? (
-          <Counter
-            count={count}
-            saving={saving}
-            onIncrement={increment}
-            onDecrement={decrement}
-            onReset={reset}
+        {selectedHabit ? (
+          <HabitDetail
+            habit={selectedHabit}
+            counts={counts}
+            onBack={() => setSelectedId(null)}
           />
         ) : (
-          <History history={history} />
+          <HabitList
+            habits={habits}
+            counts={counts}
+            onTap={tap}
+            onSelect={setSelectedId}
+            onAddHabit={addHabit}
+          />
         )}
       </main>
     </div>

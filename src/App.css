@@ -10,6 +10,7 @@
   --text: #e5e7eb;
   --text-dim: #9ca3af;
   --danger: #f87171;
+  --danger-dim: #ef4444;
   --radius: 16px;
 }
 
@@ -32,7 +33,8 @@ html, body, #root {
 }
 
 .app-header {
-  padding: 20px 20px 0;
+  padding: 20px 20px 12px;
+  border-bottom: 1px solid var(--surface2);
 }
 
 .app-title {
@@ -41,157 +43,318 @@ html, body, #root {
   color: var(--text-dim);
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  margin-bottom: 16px;
 }
 
-/* ── Tabs ── */
-.tab-nav {
+.app-main {
+  flex: 1;
   display: flex;
-  background: var(--surface);
-  border-radius: 12px;
-  padding: 4px;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Habit list ── */
+.habit-list-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px 24px;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.habit-list {
+  display: flex;
+  flex-direction: column;
   gap: 4px;
 }
 
-.tab-btn {
-  flex: 1;
-  padding: 10px;
+.habit-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-radius: 12px;
+}
+
+.habit-name {
+  background: none;
   border: none;
-  border-radius: 9px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 90px;
+  text-align: left;
+  padding: 0;
+  letter-spacing: 0.01em;
+  flex-shrink: 0;
+}
+
+.habit-name--good { color: var(--accent); }
+.habit-name--bad  { color: var(--danger); }
+
+.habit-row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Tap button (per habit) ── */
+.habit-tap-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: var(--surface2);
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.08s, background 0.08s;
+  line-height: 1;
+}
+
+.habit-tap-btn--good {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.habit-tap-btn--bad {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.habit-tap-btn:active {
+  transform: scale(0.88);
+  background: var(--surface);
+}
+
+/* ── Day chips ── */
+.day-chips {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.day-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  flex: 1;
+  padding: 4px 2px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1.5px solid transparent;
+  cursor: default;
+}
+
+.chip-label {
+  font-size: 0.42rem;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  line-height: 1.1;
+}
+
+.chip-count {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.day-chip--good .chip-count { color: var(--text-dim); }
+.day-chip--bad  .chip-count { color: var(--text-dim); }
+
+.day-chip--today.day-chip--good {
+  border-color: var(--accent);
+  background: rgba(110, 231, 183, 0.08);
+}
+.day-chip--today.day-chip--good .chip-count { color: var(--accent); }
+
+.day-chip--today.day-chip--bad {
+  border-color: var(--danger);
+  background: rgba(248, 113, 113, 0.08);
+}
+.day-chip--today.day-chip--bad .chip-count { color: var(--danger); }
+
+/* ── Add habit button ── */
+.add-habit-btn {
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 1px dashed var(--surface2);
   background: transparent;
   color: var(--text-dim);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.tab-btn.active {
-  background: var(--surface2);
-  color: var(--text);
-}
-
-/* ── Main area ── */
-.app-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 24px 20px 40px;
-}
-
-.loading {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-dim);
-  font-size: 1rem;
-}
-
-/* ── Counter ── */
-.counter-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.count-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 16px;
-}
-
-.count-number {
-  font-size: clamp(5rem, 25vw, 8rem);
-  font-weight: 700;
-  line-height: 1;
-  color: var(--accent);
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-
-.count-label {
-  margin-top: 8px;
-  color: var(--text-dim);
-  font-size: 0.9rem;
-  letter-spacing: 0.04em;
-}
-
-/* ── Big tap button ── */
-.tap-btn-wrap {
-  display: flex;
-  justify-content: center;
-}
-
-.tap-btn {
-  width: min(260px, 70vw);
-  height: min(260px, 70vw);
-  border-radius: 50%;
-  border: 3px solid var(--accent);
-  background: var(--surface);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.08s, background 0.08s;
-  box-shadow: 0 0 40px rgba(110, 231, 183, 0.15);
-}
-
-.tap-btn:active {
-  transform: scale(0.93);
-  background: var(--surface2);
-  box-shadow: 0 0 20px rgba(110, 231, 183, 0.08);
-}
-
-.tap-btn-inner {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.15em;
-}
-
-/* ── Secondary controls ── */
-.secondary-controls {
-  display: flex;
-  gap: 12px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
   width: 100%;
 }
 
-.secondary-btn {
-  flex: 1;
-  padding: 14px;
-  border-radius: var(--radius);
-  border: 1px solid var(--surface2);
+.add-habit-btn:hover,
+.add-habit-btn:active {
   background: var(--surface);
   color: var(--text);
-  font-size: 1rem;
+  border-color: var(--surface2);
+}
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--surface2);
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.modal-input {
+  background: var(--surface2);
+  border: 1px solid var(--surface2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  user-select: text;
+}
+
+.modal-input:focus {
+  border-color: var(--accent);
+}
+
+.modal-type-row {
+  display: flex;
+  gap: 8px;
+}
+
+.type-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1.5px solid var(--surface2);
+  background: var(--surface2);
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, transform 0.08s;
-}
-
-.secondary-btn:active {
-  background: var(--surface2);
-  transform: scale(0.97);
-}
-
-.reset-btn {
-  color: var(--danger);
-  border-color: rgba(248, 113, 113, 0.2);
-}
-
-.save-indicator {
-  font-size: 0.75rem;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
   color: var(--text-dim);
-  opacity: 0.6;
-  letter-spacing: 0.05em;
 }
 
-/* ── History / Calendar heatmap ── */
+.type-btn--good.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(110, 231, 183, 0.1);
+}
+
+.type-btn--bad.active {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-cancel {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--surface2);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.modal-confirm {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #0f0f0f;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.modal-confirm:hover { opacity: 0.9; }
+
+/* ── Detail / History ── */
+.detail-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 16px 32px;
+  gap: 20px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+
+.back-btn:hover { color: var(--text); }
+
+.detail-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  flex: 1;
+}
+
+.detail-title--good { color: var(--accent); }
+.detail-title--bad  { color: var(--danger); }
+
+/* ── Calendar heatmap (shared) ── */
 .history-empty {
   flex: 1;
   display: flex;
@@ -212,13 +375,6 @@ html, body, #root {
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.cal-title {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 14px;
 }
 
 .cal-outer {
@@ -290,7 +446,7 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  padding-top: 22px; /* offset for month label row */
+  padding-top: 22px;
 }
 
 .cal-day-label {
