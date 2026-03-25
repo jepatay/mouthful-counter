@@ -1,23 +1,17 @@
 import { useState } from "react";
 
-const DAY_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
 function getLast7Days() {
   const days = [];
-  for (let i = 6; i >= 0; i--) {
+  for (let i = 0; i < 7; i++) { // 0 = today (first), 6 = oldest (last)
     const d = new Date();
     d.setDate(d.getDate() - i);
     const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-    days.push({
-      key,
-      label: i === 0 ? "Today" : `${DAY_SHORT[d.getDay()]} ${d.getDate()}`,
-      isToday: i === 0,
-    });
+    days.push({ key, dateNum: d.getDate(), isToday: i === 0 });
   }
   return days;
 }
 
-export default function HabitList({ habits, counts, onTap, onSelect, onAddHabit }) {
+export default function HabitList({ habits, counts, onTap, onSelect, onAddHabit, onDelete }) {
   const [showModal, setShowModal] = useState(false);
   const [newLabel, setNewLabel] = useState("");
   const [newType, setNewType] = useState("good");
@@ -38,19 +32,34 @@ export default function HabitList({ habits, counts, onTap, onSelect, onAddHabit 
     if (e.key === "Escape") setShowModal(false);
   };
 
+  const handleDelete = (habit) => {
+    if (window.confirm(`Delete "${habit.label}"?`)) {
+      onDelete(habit.id);
+    }
+  };
+
   return (
     <div className="habit-list-wrap">
       <div className="habit-list">
         {habits.map((habit) => (
           <div key={habit.id} className="habit-row">
-            <button
-              className={`habit-name habit-name--${habit.type}`}
-              onClick={() => onSelect(habit.id)}
-            >
-              {habit.label}
-            </button>
+            <div className="habit-row-top">
+              <button
+                className={`habit-name habit-name--${habit.type}`}
+                onClick={() => onSelect(habit.id)}
+              >
+                {habit.label}
+              </button>
+              <button
+                className="habit-delete-btn"
+                onClick={() => handleDelete(habit)}
+                aria-label={`Delete ${habit.label}`}
+              >
+                ×
+              </button>
+            </div>
 
-            <div className="habit-row-right">
+            <div className="habit-row-bottom">
               <button
                 className={`habit-tap-btn habit-tap-btn--${habit.type}`}
                 onPointerDown={() => onTap(habit.id)}
@@ -58,7 +67,6 @@ export default function HabitList({ habits, counts, onTap, onSelect, onAddHabit 
               >
                 +
               </button>
-
               <div className="day-chips">
                 {last7.map((day) => {
                   const count = counts[habit.id]?.[day.key] || 0;
@@ -66,9 +74,8 @@ export default function HabitList({ habits, counts, onTap, onSelect, onAddHabit 
                     <div
                       key={day.key}
                       className={`day-chip day-chip--${habit.type}${day.isToday ? " day-chip--today" : ""}`}
-                      title={day.label}
                     >
-                      <span className="chip-label">{day.label}</span>
+                      <span className="chip-label">{day.dateNum}</span>
                       <span className="chip-count">{count}</span>
                     </div>
                   );
