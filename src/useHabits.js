@@ -60,6 +60,22 @@ export function useHabits() {
     });
   }, []);
 
+  const untap = useCallback((habitId) => {
+    const key = todayKey();
+    setData((prev) => {
+      const habitCounts = prev.counts[habitId] || {};
+      const current = habitCounts[key] || 0;
+      if (current === 0) return prev;
+      return {
+        ...prev,
+        counts: {
+          ...prev.counts,
+          [habitId]: { ...habitCounts, [key]: current - 1 },
+        },
+      };
+    });
+  }, []);
+
   const addHabit = useCallback((label, type) => {
     const id = generateId();
     setData((prev) => ({
@@ -76,5 +92,5 @@ export function useHabits() {
     });
   }, []);
 
-  return { habits: data.habits, counts: data.counts, tap, addHabit, deleteHabit };
+  return { habits: data.habits, counts: data.counts, tap, untap, addHabit, deleteHabit };
 }

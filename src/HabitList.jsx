@@ -11,7 +11,7 @@ function getLast7Days() {
   return days;
 }
 
-export default function HabitList({ habits, counts, onTap, onSelect, onAddHabit, onDelete }) {
+export default function HabitList({ habits, counts, onTap, onUntap, onSelect, onAddHabit, onDelete }) {
   const [showModal, setShowModal] = useState(false);
   const [newLabel, setNewLabel] = useState("");
   const [newType, setNewType] = useState("good");
@@ -60,6 +60,13 @@ export default function HabitList({ habits, counts, onTap, onSelect, onAddHabit,
             </div>
 
             <div className="habit-row-bottom">
+              <button
+                className={`habit-tap-btn habit-tap-btn--${habit.type}`}
+                onPointerDown={() => onUntap(habit.id)}
+                aria-label={`Remove one ${habit.label}`}
+              >
+                −
+              </button>
               <button
                 className={`habit-tap-btn habit-tap-btn--${habit.type}`}
                 onPointerDown={() => onTap(habit.id)}
