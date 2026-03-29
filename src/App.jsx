@@ -5,7 +5,7 @@ import { useHabits } from "./useHabits";
 import "./App.css";
 
 export default function App() {
-  const { habits, counts, tap, addHabit, deleteHabit } = useHabits();
+  const { habits, counts, tap, untap, addHabit, deleteHabit } = useHabits();
   const [selectedId, setSelectedId] = useState(null);
 
   const selectedHabit = selectedId ? habits.find((h) => h.id === selectedId) : null;
@@ -30,6 +30,7 @@ export default function App() {
             habits={habits}
             counts={counts}
             onTap={tap}
+            onUntap={untap}
             onSelect={setSelectedId}
             onAddHabit={addHabit}
             onDelete={deleteHabit}
